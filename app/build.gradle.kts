@@ -15,10 +15,6 @@ android {
         versionName = "1.0"
     }
 
-    sourceSets {
-        map { it.java.srcDir("src/${it.name}/kotlin") }
-    }
-
     buildTypes {
         named("release") {
             isMinifyEnabled = true
