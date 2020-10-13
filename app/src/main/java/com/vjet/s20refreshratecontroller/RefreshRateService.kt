@@ -9,7 +9,7 @@ import androidx.annotation.RequiresApi
 class RefreshRateService : TileService() {
 
     private fun updateTile() {
-        val rate = RefreshRateUtils.getRefreshRate(contentResolver)
+        val rate = RefreshRateUtils.getRefreshRate(contentResolver) ?: return
         qsTile.state = if (rate == RefreshRateUtils.MAX) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
         qsTile.label = "$rate Hz"
         qsTile.updateTile()
