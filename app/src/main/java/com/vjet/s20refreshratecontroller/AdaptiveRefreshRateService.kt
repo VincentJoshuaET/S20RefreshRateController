@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.IBinder
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.preference.PreferenceManager
 
 class AdaptiveRefreshRateService : Service() {
 
@@ -20,24 +21,26 @@ class AdaptiveRefreshRateService : Service() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate() {
-        val id = "ADAPTIVE_REFRESH_RATE_SERVICE"
-        val manager = getSystemService(NotificationManager::class.java)
-        val channel = NotificationChannel(id, "Adaptive Refresh Rate Service", NotificationManager.IMPORTANCE_LOW)
-        manager.createNotificationChannel(channel)
+        val preference = PreferenceManager.getDefaultSharedPreferences(this)
+        val adaptive = preference.getBoolean(PEAK_REFRESH_RATE, false)
 
-        val notification =
-            NotificationCompat.Builder(this, id)
-                .setContentTitle("Adaptive Refresh Rate Service")
-                .build()
+        if (adaptive) {
+            val id = "ADAPTIVE_REFRESH_RATE_SERVICE"
+            val name = "Adaptive Refresh Rate Service"
+            val channel = NotificationChannel(id, name, NotificationManager.IMPORTANCE_LOW)
+            getSystemService(NotificationManager::class.java).createNotificationChannel(channel)
 
-        startForeground(1, notification)
+            val notification = NotificationCompat.Builder(this, id).setContentTitle(name).build()
 
-        receiver = AdaptiveRefreshRateReceiver()
-        val filter = IntentFilter().apply {
-            addAction(Intent.ACTION_SCREEN_OFF)
-            addAction(Intent.ACTION_SCREEN_ON)
+            startForeground(1, notification)
+
+            receiver = AdaptiveRefreshRateReceiver()
+            val filter = IntentFilter().apply {
+                addAction(Intent.ACTION_SCREEN_OFF)
+                addAction(Intent.ACTION_SCREEN_ON)
+            }
+            registerReceiver(receiver, filter)
         }
-        registerReceiver(receiver, filter)
     }
 
     override fun onDestroy() {
