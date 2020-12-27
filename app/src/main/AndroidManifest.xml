@@ -4,8 +4,14 @@
     package="com.vjet.s20refreshratecontroller">
 
     <uses-permission
+        android:name="android.permission.WRITE_SECURE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+
+    <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="false"
@@ -33,6 +39,18 @@
                     android:name="android.service.quicksettings.action.QS_TILE"/>
             </intent-filter>
         </service>
+        <receiver
+            android:name=".AdaptiveRefreshRateReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="AdaptiveRefreshRateReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.SCREEN_OFF" />
+                <action android:name="android.intent.action.SCREEN_ON" />
+            </intent-filter>
+        </receiver>
+        <service android:name=".AdaptiveRefreshRateService" />
     </application>
 
 </manifest>
