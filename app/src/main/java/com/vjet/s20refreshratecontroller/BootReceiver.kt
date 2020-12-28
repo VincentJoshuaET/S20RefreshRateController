@@ -9,15 +9,10 @@ import androidx.annotation.RequiresApi
 class BootReceiver : BroadcastReceiver() {
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onReceive(context: Context?, intent: Intent?) {
-        when (intent?.action) {
+    override fun onReceive(context: Context, intent: Intent) {
+        when (intent.action) {
             Intent.ACTION_BOOT_COMPLETED -> {
-                context?.startForegroundService(
-                    Intent(
-                        context,
-                        AdaptiveRefreshRateService::class.java
-                    )
-                )
+                context.startForegroundService(Intent(context, AdaptiveRefreshRateService::class.java))
             }
         }
     }
