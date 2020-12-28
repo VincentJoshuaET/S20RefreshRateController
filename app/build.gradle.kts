@@ -11,8 +11,8 @@ android {
         applicationId = "com.vjet.s20refreshratecontroller"
         minSdkVersion(21)
         targetSdkVersion(21)
-        versionCode = 5
-        versionName = "2.3"
+        versionCode = 6
+        versionName = "2.4"
     }
 
     buildTypes {
