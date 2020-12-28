@@ -34,6 +34,14 @@
             android:textAppearance="?attr/textAppearanceHeadline6" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_maximum_refresh_rate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/text_maximum_refresh_rate"
+            android:textAppearance="?attr/textAppearanceHeadline6" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switch_adaptive_refresh_rate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

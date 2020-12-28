@@ -23,20 +23,46 @@ class MainActivity : AppCompatActivity() {
 
         val preference = PreferenceManager.getDefaultSharedPreferences(this)
 
-        val permission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_SECURE_SETTINGS)
+        preference.edit {
+            putString(
+                PEAK_REFRESH_RATE,
+                Settings.System.getString(contentResolver, PEAK_REFRESH_RATE)
+            )
+        }
+
+        val permission = ContextCompat.checkSelfPermission(
+            this,
+            android.Manifest.permission.WRITE_SECURE_SETTINGS
+        )
         if (permission == PackageManager.PERMISSION_GRANTED) {
             binding.switchHighRefreshRate.isEnabled = true
 
             val high = Settings.Secure.getString(contentResolver, REFRESH_RATE_MODE) != "0"
             binding.switchHighRefreshRate.isChecked = high
+            binding.switchMaximumRefreshRate.isEnabled = high
             binding.switchAdaptiveRefreshRate.isEnabled = high
 
             binding.switchHighRefreshRate.setOnCheckedChangeListener { _, checked ->
+                binding.switchMaximumRefreshRate.isEnabled = checked
                 binding.switchAdaptiveRefreshRate.isEnabled = checked
-                Settings.Secure.putString(contentResolver, REFRESH_RATE_MODE, if (checked) "2" else "0")
+                Settings.Secure.putString(
+                    contentResolver,
+                    REFRESH_RATE_MODE,
+                    if (checked) "2" else "0"
+                )
             }
 
-            val adaptive = preference.getBoolean(PEAK_REFRESH_RATE, false)
+            val peak = preference.getString(PEAK_REFRESH_RATE, "120")
+            binding.switchMaximumRefreshRate.isChecked = peak == "120"
+            binding.switchMaximumRefreshRate.setOnCheckedChangeListener { _, checked ->
+                val rate = if (checked) "120" else "96"
+                preference.edit {
+                    putString(PEAK_REFRESH_RATE, rate)
+                }
+                Settings.System.putString(contentResolver, PEAK_REFRESH_RATE, rate)
+            }
+
+            val adaptive = preference.getBoolean(AUTO_REFRESH_RATE, false)
             val intent = Intent(this, AdaptiveRefreshRateService::class.java)
             if (adaptive) {
                 startForegroundService(intent)
@@ -47,7 +73,7 @@ class MainActivity : AppCompatActivity() {
             binding.switchAdaptiveRefreshRate.isChecked = adaptive
             binding.switchAdaptiveRefreshRate.setOnCheckedChangeListener { _, checked ->
                 preference.edit {
-                    putBoolean(PEAK_REFRESH_RATE, checked)
+                    putBoolean(AUTO_REFRESH_RATE, checked)
                 }
                 if (checked) {
                     startForegroundService(intent)

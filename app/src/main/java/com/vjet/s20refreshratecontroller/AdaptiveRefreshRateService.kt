@@ -22,7 +22,7 @@ class AdaptiveRefreshRateService : Service() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate() {
         val preference = PreferenceManager.getDefaultSharedPreferences(this)
-        val adaptive = preference.getBoolean(PEAK_REFRESH_RATE, false)
+        val adaptive = preference.getBoolean(AUTO_REFRESH_RATE, false)
 
         if (adaptive) {
             val id = "ADAPTIVE_REFRESH_RATE_SERVICE"
