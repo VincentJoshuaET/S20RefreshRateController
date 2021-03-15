@@ -11,9 +11,6 @@
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
 
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -24,35 +21,13 @@
         <meta-data
             android:name="android.max_aspect"
             android:value="2.22" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <receiver
-            android:name=".AdaptiveRefreshRateReceiver"
-            android:enabled="true"
-            android:exported="true"
-            android:label="Adaptive Refresh Rate Receiver">
-            <intent-filter>
-                <action android:name="android.intent.action.SCREEN_OFF" />
-                <action android:name="android.intent.action.SCREEN_ON" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".BootReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-
-        <service android:name=".AdaptiveRefreshRateService" />
     </application>
 
 </manifest>

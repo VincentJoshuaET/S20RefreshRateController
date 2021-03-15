@@ -1,16 +1,18 @@
+import com.android.builder.core.DefaultApiVersion
+
 plugins {
     id("com.android.application")
     kotlin("android")
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdkVersion = "android-30"
     buildToolsVersion = "30.0.3"
 
     defaultConfig {
         applicationId = "com.vjet.s20refreshratecontroller"
-        minSdkVersion(21)
-        targetSdkVersion(21)
+        minSdkVersion = DefaultApiVersion(21)
+        targetSdkVersion = DefaultApiVersion(21)
         versionCode = 6
         versionName = "2.4"
     }
@@ -19,10 +21,19 @@ android {
         named("release") {
             isMinifyEnabled = true
             isShrinkResources = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+            proguardFiles = mutableListOf(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    File("proguard-rules.pro")
             )
+        }
+    }
+
+    signingConfigs {
+        register("release") {
+            enableV1Signing = true
+            enableV2Signing = true
+            enableV3Signing = true
+            enableV4Signing = true
         }
     }
 
@@ -45,7 +56,6 @@ android {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk7", "1.4.21"))
     implementation("androidx.preference:preference-ktx:1.1.1")
-    implementation("com.google.android.material:material:1.2.1")
+    implementation("com.google.android.material:material:1.3.0")
 }

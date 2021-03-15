@@ -2,6 +2,7 @@
 .gradle
 /.idea/.name
 /.idea/caches
+/.idea/codeStyles
 /.idea/dictionaries
 /.idea/libraries
 /.idea/shelf
@@ -12,7 +13,7 @@
 /.idea/misc.xml
 /.idea/modules.xml
 /.idea/navEditor.xml
-/.idea/render.experimental.xml
+/.idea/runConfigurations.xml
 /.idea/vcs.xml
 /.idea/workspace.xml
 .DS_Store
